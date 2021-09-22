@@ -1,0 +1,54 @@
+/* A field where I can import images using drag and drop. */
+var dropZone = document.createElement('div');
+dropZone.id = 'drop-zone';
+dropZone.style.width = '100%';
+dropZone.style.height = '100%';
+dropZone.style.backgroundColor = '#ccc';
+dropZone.style.border = '2px dashed #000';
+dropZone.style.textAlign = 'center';
+dropZone.style.paddingTop = '20px';
+dropZone.style.paddingBottom = '20px';
+dropZone.style.paddingLeft = '20px';
+dropZone.style.paddingRight = '20px';
+dropZone.style.fontSize = '20px';
+dropZone.style.fontWeight = 'bold';
+dropZone.style.color = '#000';
+dropZone.style.cursor = 'pointer';
+dropZone.innerHTML = 'Drop images here';
+document.body.appendChild(dropZone);
+
+/* Dropping an image in the drop zone makes it load and display the image */
+var dropZone = document.getElementById('drop-zone');
+dropZone.addEventListener('dragover', function(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'copy';
+}, false);
+dropZone.addEventListener('drop', function(e) {
+  e.preventDefault();
+  var files = e.dataTransfer.files;
+  var file = files[0];
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var image = new Image();
+    image.src = e.target.result;
+    image.onload = function() {
+      var imageContainer = document.createElement('div');
+      imageContainer.style.width = '100%';
+      imageContainer.style.height = '100%';
+      imageContainer.style.backgroundColor = '#ccc';
+      imageContainer.style.border = '2px dashed #000';
+      imageContainer.style.textAlign = 'center';
+      imageContainer.style.paddingTop = '20px';
+      imageContainer.style.paddingBottom = '20px';
+      imageContainer.style.paddingLeft = '20px';
+      imageContainer.style.paddingRight = '20px';
+      imageContainer.style.fontSize = '20px';
+      imageContainer.style.fontWeight = 'bold';
+      imageContainer.style.color = '#000';
+      imageContainer.style.cursor = 'pointer';
+      imageContainer.innerHTML = '<img src="' + e.target.result + '" style="width: 100%; height: auto;">';
+      document.body.appendChild(imageContainer);
+    };
+  };
+  reader.readAsDataURL(file);
+}, false);
